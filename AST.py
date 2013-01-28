@@ -53,118 +53,92 @@ class InstList:
     def append(self, inst):
         self.instList.append(inst)
         
-    def eval(self, writer):
-        for inst in self.instList:
-            inst.eval(writer)
+    
 
             
 
         
 
 class ArithmOp:
-    def __init__(self, operator, leftarg, rightarg):
+    def __init__(self, operator, leftarg, rightarg, lineno):
         self.leftarg = leftarg
         self.rightarg = rightarg
         self.operator = operator
+        self.lineno = lineno
         
-    def eval(self, writer):
-        self.leftarg.eval(writer)
-        self.rightarg.eval(writer)
-        self.id = IdGenerator.getNextId()
-        writer.append(self.id + " = " + self.leftarg.id +" "+self.operator+" "+self.rightarg.id)
+    
         
 class AssignOp:
-    def __init__(self, leftarg, rightarg):
+    def __init__(self, leftarg, rightarg, lineno):
         self.leftarg = leftarg
-        self.rightarg = rightarg
+        self.rightarg = rightarg 
+        self.lineno = lineno
         
-    def eval(self, writer):
-        self.leftarg.eval(writer)
-        self.rightarg.eval(writer)
-        writer.append(self.leftarg.id + " = " + self.rightarg.id)
-        self.id = self.leftarg.id
+    
 
 class CompOp:
-    def __init__(self, operator, leftarg, rightarg):
+    def __init__(self, operator, leftarg, rightarg, lineno):
         self.leftarg = leftarg
         self.rightarg = rightarg
         self.operator = operator
+        self.lineno = lineno
     
-    def eval(self, writer):
-        self.leftarg.eval(writer)
-        self.rightarg.eval(writer)
-        
-        self.leftid = self.leftarg.id
-        self.rightid = self.rightarg.id
+    
     
 class While:
-    def __init__(self, condition, body):
-        self.body = body;
-        self.condition = condition;
+    def __init__(self, condition, body, lineno):
+        self.body = body
+        self.condition = condition 
+        self.lineno = lineno
         
-    def eval(self, writer):
-        conditionStartLine = writer.getLen()
-        self.condition.eval(writer) # condition initialization
-        conditionCheckLine = writer.reserveLine() #line for checking condition
-        self.body.eval(writer) # while body
-        writer.append("if== 1 1 "+str(conditionStartLine)) # after body jumpt to condition ^
-        afterWhileLine = writer.getLen() # where to jump when condition is false
-        writer.putLine(conditionCheckLine, Utils.getIfCond(self.condition, afterWhileLine))
+    
 
 class If(object):
-    def __init__(self, condition, ifbody):
+    def __init__(self, condition, ifbody, lineno):
         self.condition = condition
         self.ifbody = ifbody
+        self.lineno = lineno
         
-    def eval(self, writer):
-        self.condition.eval(writer)
-        lineno = writer.reserveLine()
-        self.ifbody.eval(writer)
-        jumpLine = writer.getLen()
-        writer.putLine(lineno, Utils.getIfCond(self.condition, jumpLine))
+    
         
 class IfElse(If):
-    def __init__(self, condition, ifbody, elsebody):
+    def __init__(self, condition, ifbody, elsebody, lineno):
         self.condition = condition
         self.ifbody = ifbody
-        self.elsebody = elsebody
+        self.elsebody = elsebody    
+        self.lineno = lineno
         
-    def eval(self, writer):
-        self.condition.eval(writer)
-        ifCondLine = writer.reserveLine()
-        self.ifbody.eval(writer)
-        afterIfStmtLine = writer.reserveLine()
-        elseStartLine = writer.getLen()
-        self.elsebody.eval(writer)
-        afterElseLine = writer.getLen()
-        writer.putLine(ifCondLine, Utils.getIfCond(self.condition, elseStartLine))
-        writer.putLine(afterIfStmtLine, "if== 1 1 "+str(afterElseLine))
+    
         
         
 class Constant:
-    def __init__(self, value, type):
+    def __init__(self, value, type, lineno):
         self.value = value
         self.type = type
         self.id = value
+        self.lineno = lineno
         
-    def eval(self, writer):
-        pass
+    
     
 class Variable:
-    def __init__(self, name):
+    def __init__(self, name, lineno):
         self.name = name
         self.id = name
+        self.lineno = lineno
 
-    def eval(self, writer):
-        pass
+    
 
 class Declarations:
     def __init__(self):
         self.dic = dict()
-    def append(self, name, type):
+    def append(self, name, type, lineno):
         if name in self.dic:
-            raise NameError("Duplicated Variable!")
+            #raise NameError("Duplicated Variable!")
+            print("before " + str(lineno) + ": Duplicated variable: " + name)
+            exit()
         self.dic[name] = type
-    def sum(self, other):
+    def sum(self, other, lineno):
         for (name, type) in other.dic.items():
-            self.append(name, type)
+            self.append(name, type, lineno)
+            
+            
