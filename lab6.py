@@ -253,6 +253,6 @@ instructions.eval(writer)
 linesWithNumbers = dict(zip(range(0,writer.getLen()), writer.getLines()))
 
 pprint(linesWithNumbers)
-
+pprint(declarations.dic)
 
 

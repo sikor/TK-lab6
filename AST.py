@@ -104,11 +104,11 @@ class While:
         
     def eval(self, writer):
         conditionStartLine = writer.getLen()
-        self.condition.eval(writer)
-        conditionCheckLine = writer.reserveLine()
-        self.body.eval(writer)
-        writer.append("if== 1 1 "+str(conditionStartLine))
-        afterWhileLine = writer.getLen()
+        self.condition.eval(writer) # condition initialization
+        conditionCheckLine = writer.reserveLine() #line for checking condition
+        self.body.eval(writer) # while body
+        writer.append("if== 1 1 "+str(conditionStartLine)) # after body jumpt to condition ^
+        afterWhileLine = writer.getLen() # where to jump when condition is false
         writer.putLine(conditionCheckLine, Utils.getIfCond(self.condition, afterWhileLine))
 
 class If(object):
