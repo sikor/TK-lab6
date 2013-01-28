@@ -2,8 +2,16 @@
 int a,b,c;
 float d,e,f,g,i,j,k,p,q,r;
 
-a = b + c;
-d = e / f * g;
+
+c = 10;
+b = 6;
+a = b * c;
+d = e / f * "zosia";
+
+while(c > 5){
+	c = c -1;
+	a = a * 10;
+}
 
 if(i+j >= k-5 ) {
     p = (q+r)*3;

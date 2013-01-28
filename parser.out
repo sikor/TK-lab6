@@ -1,0 +1,1220 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> declarations instructions
+Rule 2     declarations -> declarations declaration
+Rule 3     declarations -> <empty>
+Rule 4     declaration -> TYPE vars ;
+Rule 5     vars -> vars , ID
+Rule 6     vars -> ID
+Rule 7     instructions -> instructions instruction
+Rule 8     instructions -> instruction
+Rule 9     instruction -> assignment
+Rule 10    instruction -> choice_instr
+Rule 11    instruction -> while_instr
+Rule 12    assignment -> ID = expression ;
+Rule 13    expression -> ID
+Rule 14    expression -> const
+Rule 15    expression -> ( expression )
+Rule 16    expression -> expression + expression
+Rule 17    expression -> expression - expression
+Rule 18    expression -> expression * expression
+Rule 19    expression -> expression / expression
+Rule 20    const -> INTEGER
+Rule 21    const -> FLOAT
+Rule 22    const -> STRING
+Rule 23    choice_instr -> IF ( condition ) stmt
+Rule 24    choice_instr -> IF ( condition ) stmt ELSE stmt
+Rule 25    while_instr -> WHILE ( condition ) stmt
+Rule 26    condition -> expression EQ expression
+Rule 27    condition -> expression NEQ expression
+Rule 28    condition -> expression GE expression
+Rule 29    condition -> expression LE expression
+Rule 30    condition -> expression < expression
+Rule 31    condition -> expression > expression
+Rule 32    stmt -> assignment
+Rule 33    stmt -> { instructions }
+Rule 34    stmt -> choice_instr
+Rule 35    stmt -> while_instr
+
+Terminals, with rules where they appear
+
+(                    : 15 23 24 25
+)                    : 15 23 24 25
+*                    : 18
++                    : 16
+,                    : 5
+-                    : 17
+/                    : 19
+;                    : 4 12
+<                    : 30
+=                    : 12
+>                    : 31
+ELSE                 : 24
+EQ                   : 26
+FLOAT                : 21
+GE                   : 28
+ID                   : 5 6 12 13
+IF                   : 23 24
+INTEGER              : 20
+LE                   : 29
+NEQ                  : 27
+STRING               : 22
+TYPE                 : 4
+WHILE                : 25
+error                : 
+{                    : 33
+}                    : 33
+
+Nonterminals, with rules where they appear
+
+assignment           : 9 32
+choice_instr         : 10 34
+condition            : 23 24 25
+const                : 14
+declaration          : 2
+declarations         : 1 2
+expression           : 12 15 16 16 17 17 18 18 19 19 26 26 27 27 28 28 29 29 30 30 31 31
+instruction          : 7 8
+instructions         : 1 7 33
+program              : 0
+stmt                 : 23 24 24 25
+vars                 : 4 5
+while_instr          : 11 35
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . declarations instructions
+    (2) declarations -> . declarations declaration
+    (3) declarations -> .
+
+    TYPE            reduce using rule 3 (declarations -> .)
+    ID              reduce using rule 3 (declarations -> .)
+    IF              reduce using rule 3 (declarations -> .)
+    WHILE           reduce using rule 3 (declarations -> .)
+
+    program                        shift and go to state 1
+    declarations                   shift and go to state 2
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> declarations . instructions
+    (2) declarations -> declarations . declaration
+    (7) instructions -> . instructions instruction
+    (8) instructions -> . instruction
+    (4) declaration -> . TYPE vars ;
+    (9) instruction -> . assignment
+    (10) instruction -> . choice_instr
+    (11) instruction -> . while_instr
+    (12) assignment -> . ID = expression ;
+    (23) choice_instr -> . IF ( condition ) stmt
+    (24) choice_instr -> . IF ( condition ) stmt ELSE stmt
+    (25) while_instr -> . WHILE ( condition ) stmt
+
+    TYPE            shift and go to state 10
+    ID              shift and go to state 11
+    IF              shift and go to state 9
+    WHILE           shift and go to state 5
+
+    instruction                    shift and go to state 3
+    assignment                     shift and go to state 4
+    while_instr                    shift and go to state 6
+    choice_instr                   shift and go to state 7
+    declaration                    shift and go to state 8
+    instructions                   shift and go to state 12
+
+state 3
+
+    (8) instructions -> instruction .
+
+    ID              reduce using rule 8 (instructions -> instruction .)
+    IF              reduce using rule 8 (instructions -> instruction .)
+    WHILE           reduce using rule 8 (instructions -> instruction .)
+    $end            reduce using rule 8 (instructions -> instruction .)
+    }               reduce using rule 8 (instructions -> instruction .)
+
+
+state 4
+
+    (9) instruction -> assignment .
+
+    ID              reduce using rule 9 (instruction -> assignment .)
+    IF              reduce using rule 9 (instruction -> assignment .)
+    WHILE           reduce using rule 9 (instruction -> assignment .)
+    $end            reduce using rule 9 (instruction -> assignment .)
+    }               reduce using rule 9 (instruction -> assignment .)
+
+
+state 5
+
+    (25) while_instr -> WHILE . ( condition ) stmt
+
+    (               shift and go to state 13
+
+
+state 6
+
+    (11) instruction -> while_instr .
+
+    ID              reduce using rule 11 (instruction -> while_instr .)
+    IF              reduce using rule 11 (instruction -> while_instr .)
+    WHILE           reduce using rule 11 (instruction -> while_instr .)
+    $end            reduce using rule 11 (instruction -> while_instr .)
+    }               reduce using rule 11 (instruction -> while_instr .)
+
+
+state 7
+
+    (10) instruction -> choice_instr .
+
+    ID              reduce using rule 10 (instruction -> choice_instr .)
+    IF              reduce using rule 10 (instruction -> choice_instr .)
+    WHILE           reduce using rule 10 (instruction -> choice_instr .)
+    $end            reduce using rule 10 (instruction -> choice_instr .)
+    }               reduce using rule 10 (instruction -> choice_instr .)
+
+
+state 8
+
+    (2) declarations -> declarations declaration .
+
+    TYPE            reduce using rule 2 (declarations -> declarations declaration .)
+    ID              reduce using rule 2 (declarations -> declarations declaration .)
+    IF              reduce using rule 2 (declarations -> declarations declaration .)
+    WHILE           reduce using rule 2 (declarations -> declarations declaration .)
+
+
+state 9
+
+    (23) choice_instr -> IF . ( condition ) stmt
+    (24) choice_instr -> IF . ( condition ) stmt ELSE stmt
+
+    (               shift and go to state 14
+
+
+state 10
+
+    (4) declaration -> TYPE . vars ;
+    (5) vars -> . vars , ID
+    (6) vars -> . ID
+
+    ID              shift and go to state 16
+
+    vars                           shift and go to state 15
+
+state 11
+
+    (12) assignment -> ID . = expression ;
+
+    =               shift and go to state 17
+
+
+state 12
+
+    (1) program -> declarations instructions .
+    (7) instructions -> instructions . instruction
+    (9) instruction -> . assignment
+    (10) instruction -> . choice_instr
+    (11) instruction -> . while_instr
+    (12) assignment -> . ID = expression ;
+    (23) choice_instr -> . IF ( condition ) stmt
+    (24) choice_instr -> . IF ( condition ) stmt ELSE stmt
+    (25) while_instr -> . WHILE ( condition ) stmt
+
+    $end            reduce using rule 1 (program -> declarations instructions .)
+    ID              shift and go to state 11
+    IF              shift and go to state 9
+    WHILE           shift and go to state 5
+
+    instruction                    shift and go to state 18
+    assignment                     shift and go to state 4
+    while_instr                    shift and go to state 6
+    choice_instr                   shift and go to state 7
+
+state 13
+
+    (25) while_instr -> WHILE ( . condition ) stmt
+    (26) condition -> . expression EQ expression
+    (27) condition -> . expression NEQ expression
+    (28) condition -> . expression GE expression
+    (29) condition -> . expression LE expression
+    (30) condition -> . expression < expression
+    (31) condition -> . expression > expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 25
+    condition                      shift and go to state 26
+
+state 14
+
+    (23) choice_instr -> IF ( . condition ) stmt
+    (24) choice_instr -> IF ( . condition ) stmt ELSE stmt
+    (26) condition -> . expression EQ expression
+    (27) condition -> . expression NEQ expression
+    (28) condition -> . expression GE expression
+    (29) condition -> . expression LE expression
+    (30) condition -> . expression < expression
+    (31) condition -> . expression > expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 25
+    condition                      shift and go to state 27
+
+state 15
+
+    (4) declaration -> TYPE vars . ;
+    (5) vars -> vars . , ID
+
+    ;               shift and go to state 28
+    ,               shift and go to state 29
+
+
+state 16
+
+    (6) vars -> ID .
+
+    ;               reduce using rule 6 (vars -> ID .)
+    ,               reduce using rule 6 (vars -> ID .)
+
+
+state 17
+
+    (12) assignment -> ID = . expression ;
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 30
+
+state 18
+
+    (7) instructions -> instructions instruction .
+
+    ID              reduce using rule 7 (instructions -> instructions instruction .)
+    IF              reduce using rule 7 (instructions -> instructions instruction .)
+    WHILE           reduce using rule 7 (instructions -> instructions instruction .)
+    $end            reduce using rule 7 (instructions -> instructions instruction .)
+    }               reduce using rule 7 (instructions -> instructions instruction .)
+
+
+state 19
+
+    (21) const -> FLOAT .
+
+    +               reduce using rule 21 (const -> FLOAT .)
+    -               reduce using rule 21 (const -> FLOAT .)
+    *               reduce using rule 21 (const -> FLOAT .)
+    /               reduce using rule 21 (const -> FLOAT .)
+    )               reduce using rule 21 (const -> FLOAT .)
+    EQ              reduce using rule 21 (const -> FLOAT .)
+    NEQ             reduce using rule 21 (const -> FLOAT .)
+    GE              reduce using rule 21 (const -> FLOAT .)
+    LE              reduce using rule 21 (const -> FLOAT .)
+    <               reduce using rule 21 (const -> FLOAT .)
+    >               reduce using rule 21 (const -> FLOAT .)
+    ;               reduce using rule 21 (const -> FLOAT .)
+
+
+state 20
+
+    (22) const -> STRING .
+
+    +               reduce using rule 22 (const -> STRING .)
+    -               reduce using rule 22 (const -> STRING .)
+    *               reduce using rule 22 (const -> STRING .)
+    /               reduce using rule 22 (const -> STRING .)
+    )               reduce using rule 22 (const -> STRING .)
+    EQ              reduce using rule 22 (const -> STRING .)
+    NEQ             reduce using rule 22 (const -> STRING .)
+    GE              reduce using rule 22 (const -> STRING .)
+    LE              reduce using rule 22 (const -> STRING .)
+    <               reduce using rule 22 (const -> STRING .)
+    >               reduce using rule 22 (const -> STRING .)
+    ;               reduce using rule 22 (const -> STRING .)
+
+
+state 21
+
+    (15) expression -> ( . expression )
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 31
+
+state 22
+
+    (13) expression -> ID .
+
+    +               reduce using rule 13 (expression -> ID .)
+    -               reduce using rule 13 (expression -> ID .)
+    *               reduce using rule 13 (expression -> ID .)
+    /               reduce using rule 13 (expression -> ID .)
+    )               reduce using rule 13 (expression -> ID .)
+    EQ              reduce using rule 13 (expression -> ID .)
+    NEQ             reduce using rule 13 (expression -> ID .)
+    GE              reduce using rule 13 (expression -> ID .)
+    LE              reduce using rule 13 (expression -> ID .)
+    <               reduce using rule 13 (expression -> ID .)
+    >               reduce using rule 13 (expression -> ID .)
+    ;               reduce using rule 13 (expression -> ID .)
+
+
+state 23
+
+    (20) const -> INTEGER .
+
+    +               reduce using rule 20 (const -> INTEGER .)
+    -               reduce using rule 20 (const -> INTEGER .)
+    *               reduce using rule 20 (const -> INTEGER .)
+    /               reduce using rule 20 (const -> INTEGER .)
+    )               reduce using rule 20 (const -> INTEGER .)
+    EQ              reduce using rule 20 (const -> INTEGER .)
+    NEQ             reduce using rule 20 (const -> INTEGER .)
+    GE              reduce using rule 20 (const -> INTEGER .)
+    LE              reduce using rule 20 (const -> INTEGER .)
+    <               reduce using rule 20 (const -> INTEGER .)
+    >               reduce using rule 20 (const -> INTEGER .)
+    ;               reduce using rule 20 (const -> INTEGER .)
+
+
+state 24
+
+    (14) expression -> const .
+
+    +               reduce using rule 14 (expression -> const .)
+    -               reduce using rule 14 (expression -> const .)
+    *               reduce using rule 14 (expression -> const .)
+    /               reduce using rule 14 (expression -> const .)
+    )               reduce using rule 14 (expression -> const .)
+    EQ              reduce using rule 14 (expression -> const .)
+    NEQ             reduce using rule 14 (expression -> const .)
+    GE              reduce using rule 14 (expression -> const .)
+    LE              reduce using rule 14 (expression -> const .)
+    <               reduce using rule 14 (expression -> const .)
+    >               reduce using rule 14 (expression -> const .)
+    ;               reduce using rule 14 (expression -> const .)
+
+
+state 25
+
+    (26) condition -> expression . EQ expression
+    (27) condition -> expression . NEQ expression
+    (28) condition -> expression . GE expression
+    (29) condition -> expression . LE expression
+    (30) condition -> expression . < expression
+    (31) condition -> expression . > expression
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    EQ              shift and go to state 39
+    NEQ             shift and go to state 41
+    GE              shift and go to state 37
+    LE              shift and go to state 32
+    <               shift and go to state 40
+    >               shift and go to state 38
+    +               shift and go to state 33
+    -               shift and go to state 35
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+
+state 26
+
+    (25) while_instr -> WHILE ( condition . ) stmt
+
+    )               shift and go to state 42
+
+
+state 27
+
+    (23) choice_instr -> IF ( condition . ) stmt
+    (24) choice_instr -> IF ( condition . ) stmt ELSE stmt
+
+    )               shift and go to state 43
+
+
+state 28
+
+    (4) declaration -> TYPE vars ; .
+
+    TYPE            reduce using rule 4 (declaration -> TYPE vars ; .)
+    ID              reduce using rule 4 (declaration -> TYPE vars ; .)
+    IF              reduce using rule 4 (declaration -> TYPE vars ; .)
+    WHILE           reduce using rule 4 (declaration -> TYPE vars ; .)
+
+
+state 29
+
+    (5) vars -> vars , . ID
+
+    ID              shift and go to state 44
+
+
+state 30
+
+    (12) assignment -> ID = expression . ;
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    ;               shift and go to state 45
+    +               shift and go to state 33
+    -               shift and go to state 35
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+
+state 31
+
+    (15) expression -> ( expression . )
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    )               shift and go to state 46
+    +               shift and go to state 33
+    -               shift and go to state 35
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+
+state 32
+
+    (29) condition -> expression LE . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 47
+
+state 33
+
+    (16) expression -> expression + . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 48
+
+state 34
+
+    (18) expression -> expression * . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 49
+
+state 35
+
+    (17) expression -> expression - . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 50
+
+state 36
+
+    (19) expression -> expression / . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 51
+
+state 37
+
+    (28) condition -> expression GE . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 52
+
+state 38
+
+    (31) condition -> expression > . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 53
+
+state 39
+
+    (26) condition -> expression EQ . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 54
+
+state 40
+
+    (30) condition -> expression < . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 55
+
+state 41
+
+    (27) condition -> expression NEQ . expression
+    (13) expression -> . ID
+    (14) expression -> . const
+    (15) expression -> . ( expression )
+    (16) expression -> . expression + expression
+    (17) expression -> . expression - expression
+    (18) expression -> . expression * expression
+    (19) expression -> . expression / expression
+    (20) const -> . INTEGER
+    (21) const -> . FLOAT
+    (22) const -> . STRING
+
+    ID              shift and go to state 22
+    (               shift and go to state 21
+    INTEGER         shift and go to state 23
+    FLOAT           shift and go to state 19
+    STRING          shift and go to state 20
+
+    const                          shift and go to state 24
+    expression                     shift and go to state 56
+
+state 42
+
+    (25) while_instr -> WHILE ( condition ) . stmt
+    (32) stmt -> . assignment
+    (33) stmt -> . { instructions }
+    (34) stmt -> . choice_instr
+    (35) stmt -> . while_instr
+    (12) assignment -> . ID = expression ;
+    (23) choice_instr -> . IF ( condition ) stmt
+    (24) choice_instr -> . IF ( condition ) stmt ELSE stmt
+    (25) while_instr -> . WHILE ( condition ) stmt
+
+    {               shift and go to state 61
+    ID              shift and go to state 11
+    IF              shift and go to state 9
+    WHILE           shift and go to state 5
+
+    assignment                     shift and go to state 60
+    stmt                           shift and go to state 58
+    while_instr                    shift and go to state 59
+    choice_instr                   shift and go to state 57
+
+state 43
+
+    (23) choice_instr -> IF ( condition ) . stmt
+    (24) choice_instr -> IF ( condition ) . stmt ELSE stmt
+    (32) stmt -> . assignment
+    (33) stmt -> . { instructions }
+    (34) stmt -> . choice_instr
+    (35) stmt -> . while_instr
+    (12) assignment -> . ID = expression ;
+    (23) choice_instr -> . IF ( condition ) stmt
+    (24) choice_instr -> . IF ( condition ) stmt ELSE stmt
+    (25) while_instr -> . WHILE ( condition ) stmt
+
+    {               shift and go to state 61
+    ID              shift and go to state 11
+    IF              shift and go to state 9
+    WHILE           shift and go to state 5
+
+    assignment                     shift and go to state 60
+    stmt                           shift and go to state 62
+    while_instr                    shift and go to state 59
+    choice_instr                   shift and go to state 57
+
+state 44
+
+    (5) vars -> vars , ID .
+
+    ;               reduce using rule 5 (vars -> vars , ID .)
+    ,               reduce using rule 5 (vars -> vars , ID .)
+
+
+state 45
+
+    (12) assignment -> ID = expression ; .
+
+    ID              reduce using rule 12 (assignment -> ID = expression ; .)
+    IF              reduce using rule 12 (assignment -> ID = expression ; .)
+    WHILE           reduce using rule 12 (assignment -> ID = expression ; .)
+    $end            reduce using rule 12 (assignment -> ID = expression ; .)
+    ELSE            reduce using rule 12 (assignment -> ID = expression ; .)
+    }               reduce using rule 12 (assignment -> ID = expression ; .)
+
+
+state 46
+
+    (15) expression -> ( expression ) .
+
+    +               reduce using rule 15 (expression -> ( expression ) .)
+    -               reduce using rule 15 (expression -> ( expression ) .)
+    *               reduce using rule 15 (expression -> ( expression ) .)
+    /               reduce using rule 15 (expression -> ( expression ) .)
+    )               reduce using rule 15 (expression -> ( expression ) .)
+    EQ              reduce using rule 15 (expression -> ( expression ) .)
+    NEQ             reduce using rule 15 (expression -> ( expression ) .)
+    GE              reduce using rule 15 (expression -> ( expression ) .)
+    LE              reduce using rule 15 (expression -> ( expression ) .)
+    <               reduce using rule 15 (expression -> ( expression ) .)
+    >               reduce using rule 15 (expression -> ( expression ) .)
+    ;               reduce using rule 15 (expression -> ( expression ) .)
+
+
+state 47
+
+    (29) condition -> expression LE expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    )               reduce using rule 29 (condition -> expression LE expression .)
+    +               shift and go to state 33
+    -               shift and go to state 35
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+
+state 48
+
+    (16) expression -> expression + expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    +               reduce using rule 16 (expression -> expression + expression .)
+    -               reduce using rule 16 (expression -> expression + expression .)
+    )               reduce using rule 16 (expression -> expression + expression .)
+    EQ              reduce using rule 16 (expression -> expression + expression .)
+    NEQ             reduce using rule 16 (expression -> expression + expression .)
+    GE              reduce using rule 16 (expression -> expression + expression .)
+    LE              reduce using rule 16 (expression -> expression + expression .)
+    <               reduce using rule 16 (expression -> expression + expression .)
+    >               reduce using rule 16 (expression -> expression + expression .)
+    ;               reduce using rule 16 (expression -> expression + expression .)
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+  ! *               [ reduce using rule 16 (expression -> expression + expression .) ]
+  ! /               [ reduce using rule 16 (expression -> expression + expression .) ]
+  ! +               [ shift and go to state 33 ]
+  ! -               [ shift and go to state 35 ]
+
+
+state 49
+
+    (18) expression -> expression * expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    +               reduce using rule 18 (expression -> expression * expression .)
+    -               reduce using rule 18 (expression -> expression * expression .)
+    *               reduce using rule 18 (expression -> expression * expression .)
+    /               reduce using rule 18 (expression -> expression * expression .)
+    )               reduce using rule 18 (expression -> expression * expression .)
+    EQ              reduce using rule 18 (expression -> expression * expression .)
+    NEQ             reduce using rule 18 (expression -> expression * expression .)
+    GE              reduce using rule 18 (expression -> expression * expression .)
+    LE              reduce using rule 18 (expression -> expression * expression .)
+    <               reduce using rule 18 (expression -> expression * expression .)
+    >               reduce using rule 18 (expression -> expression * expression .)
+    ;               reduce using rule 18 (expression -> expression * expression .)
+
+  ! +               [ shift and go to state 33 ]
+  ! -               [ shift and go to state 35 ]
+  ! *               [ shift and go to state 34 ]
+  ! /               [ shift and go to state 36 ]
+
+
+state 50
+
+    (17) expression -> expression - expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    +               reduce using rule 17 (expression -> expression - expression .)
+    -               reduce using rule 17 (expression -> expression - expression .)
+    )               reduce using rule 17 (expression -> expression - expression .)
+    EQ              reduce using rule 17 (expression -> expression - expression .)
+    NEQ             reduce using rule 17 (expression -> expression - expression .)
+    GE              reduce using rule 17 (expression -> expression - expression .)
+    LE              reduce using rule 17 (expression -> expression - expression .)
+    <               reduce using rule 17 (expression -> expression - expression .)
+    >               reduce using rule 17 (expression -> expression - expression .)
+    ;               reduce using rule 17 (expression -> expression - expression .)
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+  ! *               [ reduce using rule 17 (expression -> expression - expression .) ]
+  ! /               [ reduce using rule 17 (expression -> expression - expression .) ]
+  ! +               [ shift and go to state 33 ]
+  ! -               [ shift and go to state 35 ]
+
+
+state 51
+
+    (19) expression -> expression / expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    +               reduce using rule 19 (expression -> expression / expression .)
+    -               reduce using rule 19 (expression -> expression / expression .)
+    *               reduce using rule 19 (expression -> expression / expression .)
+    /               reduce using rule 19 (expression -> expression / expression .)
+    )               reduce using rule 19 (expression -> expression / expression .)
+    EQ              reduce using rule 19 (expression -> expression / expression .)
+    NEQ             reduce using rule 19 (expression -> expression / expression .)
+    GE              reduce using rule 19 (expression -> expression / expression .)
+    LE              reduce using rule 19 (expression -> expression / expression .)
+    <               reduce using rule 19 (expression -> expression / expression .)
+    >               reduce using rule 19 (expression -> expression / expression .)
+    ;               reduce using rule 19 (expression -> expression / expression .)
+
+  ! +               [ shift and go to state 33 ]
+  ! -               [ shift and go to state 35 ]
+  ! *               [ shift and go to state 34 ]
+  ! /               [ shift and go to state 36 ]
+
+
+state 52
+
+    (28) condition -> expression GE expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    )               reduce using rule 28 (condition -> expression GE expression .)
+    +               shift and go to state 33
+    -               shift and go to state 35
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+
+state 53
+
+    (31) condition -> expression > expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    )               reduce using rule 31 (condition -> expression > expression .)
+    +               shift and go to state 33
+    -               shift and go to state 35
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+
+state 54
+
+    (26) condition -> expression EQ expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    )               reduce using rule 26 (condition -> expression EQ expression .)
+    +               shift and go to state 33
+    -               shift and go to state 35
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+
+state 55
+
+    (30) condition -> expression < expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    )               reduce using rule 30 (condition -> expression < expression .)
+    +               shift and go to state 33
+    -               shift and go to state 35
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+
+state 56
+
+    (27) condition -> expression NEQ expression .
+    (16) expression -> expression . + expression
+    (17) expression -> expression . - expression
+    (18) expression -> expression . * expression
+    (19) expression -> expression . / expression
+
+    )               reduce using rule 27 (condition -> expression NEQ expression .)
+    +               shift and go to state 33
+    -               shift and go to state 35
+    *               shift and go to state 34
+    /               shift and go to state 36
+
+
+state 57
+
+    (34) stmt -> choice_instr .
+
+    ID              reduce using rule 34 (stmt -> choice_instr .)
+    IF              reduce using rule 34 (stmt -> choice_instr .)
+    WHILE           reduce using rule 34 (stmt -> choice_instr .)
+    $end            reduce using rule 34 (stmt -> choice_instr .)
+    ELSE            reduce using rule 34 (stmt -> choice_instr .)
+    }               reduce using rule 34 (stmt -> choice_instr .)
+
+
+state 58
+
+    (25) while_instr -> WHILE ( condition ) stmt .
+
+    ID              reduce using rule 25 (while_instr -> WHILE ( condition ) stmt .)
+    IF              reduce using rule 25 (while_instr -> WHILE ( condition ) stmt .)
+    WHILE           reduce using rule 25 (while_instr -> WHILE ( condition ) stmt .)
+    $end            reduce using rule 25 (while_instr -> WHILE ( condition ) stmt .)
+    ELSE            reduce using rule 25 (while_instr -> WHILE ( condition ) stmt .)
+    }               reduce using rule 25 (while_instr -> WHILE ( condition ) stmt .)
+
+
+state 59
+
+    (35) stmt -> while_instr .
+
+    ID              reduce using rule 35 (stmt -> while_instr .)
+    IF              reduce using rule 35 (stmt -> while_instr .)
+    WHILE           reduce using rule 35 (stmt -> while_instr .)
+    $end            reduce using rule 35 (stmt -> while_instr .)
+    ELSE            reduce using rule 35 (stmt -> while_instr .)
+    }               reduce using rule 35 (stmt -> while_instr .)
+
+
+state 60
+
+    (32) stmt -> assignment .
+
+    ID              reduce using rule 32 (stmt -> assignment .)
+    IF              reduce using rule 32 (stmt -> assignment .)
+    WHILE           reduce using rule 32 (stmt -> assignment .)
+    $end            reduce using rule 32 (stmt -> assignment .)
+    ELSE            reduce using rule 32 (stmt -> assignment .)
+    }               reduce using rule 32 (stmt -> assignment .)
+
+
+state 61
+
+    (33) stmt -> { . instructions }
+    (7) instructions -> . instructions instruction
+    (8) instructions -> . instruction
+    (9) instruction -> . assignment
+    (10) instruction -> . choice_instr
+    (11) instruction -> . while_instr
+    (12) assignment -> . ID = expression ;
+    (23) choice_instr -> . IF ( condition ) stmt
+    (24) choice_instr -> . IF ( condition ) stmt ELSE stmt
+    (25) while_instr -> . WHILE ( condition ) stmt
+
+    ID              shift and go to state 11
+    IF              shift and go to state 9
+    WHILE           shift and go to state 5
+
+    assignment                     shift and go to state 4
+    instruction                    shift and go to state 3
+    while_instr                    shift and go to state 6
+    choice_instr                   shift and go to state 7
+    instructions                   shift and go to state 63
+
+state 62
+
+    (23) choice_instr -> IF ( condition ) stmt .
+    (24) choice_instr -> IF ( condition ) stmt . ELSE stmt
+
+    ID              reduce using rule 23 (choice_instr -> IF ( condition ) stmt .)
+    IF              reduce using rule 23 (choice_instr -> IF ( condition ) stmt .)
+    WHILE           reduce using rule 23 (choice_instr -> IF ( condition ) stmt .)
+    $end            reduce using rule 23 (choice_instr -> IF ( condition ) stmt .)
+    }               reduce using rule 23 (choice_instr -> IF ( condition ) stmt .)
+    ELSE            shift and go to state 64
+
+  ! ELSE            [ reduce using rule 23 (choice_instr -> IF ( condition ) stmt .) ]
+
+
+state 63
+
+    (33) stmt -> { instructions . }
+    (7) instructions -> instructions . instruction
+    (9) instruction -> . assignment
+    (10) instruction -> . choice_instr
+    (11) instruction -> . while_instr
+    (12) assignment -> . ID = expression ;
+    (23) choice_instr -> . IF ( condition ) stmt
+    (24) choice_instr -> . IF ( condition ) stmt ELSE stmt
+    (25) while_instr -> . WHILE ( condition ) stmt
+
+    }               shift and go to state 65
+    ID              shift and go to state 11
+    IF              shift and go to state 9
+    WHILE           shift and go to state 5
+
+    assignment                     shift and go to state 4
+    instruction                    shift and go to state 18
+    while_instr                    shift and go to state 6
+    choice_instr                   shift and go to state 7
+
+state 64
+
+    (24) choice_instr -> IF ( condition ) stmt ELSE . stmt
+    (32) stmt -> . assignment
+    (33) stmt -> . { instructions }
+    (34) stmt -> . choice_instr
+    (35) stmt -> . while_instr
+    (12) assignment -> . ID = expression ;
+    (23) choice_instr -> . IF ( condition ) stmt
+    (24) choice_instr -> . IF ( condition ) stmt ELSE stmt
+    (25) while_instr -> . WHILE ( condition ) stmt
+
+    {               shift and go to state 61
+    ID              shift and go to state 11
+    IF              shift and go to state 9
+    WHILE           shift and go to state 5
+
+    assignment                     shift and go to state 60
+    stmt                           shift and go to state 66
+    while_instr                    shift and go to state 59
+    choice_instr                   shift and go to state 57
+
+state 65
+
+    (33) stmt -> { instructions } .
+
+    ID              reduce using rule 33 (stmt -> { instructions } .)
+    IF              reduce using rule 33 (stmt -> { instructions } .)
+    WHILE           reduce using rule 33 (stmt -> { instructions } .)
+    $end            reduce using rule 33 (stmt -> { instructions } .)
+    ELSE            reduce using rule 33 (stmt -> { instructions } .)
+    }               reduce using rule 33 (stmt -> { instructions } .)
+
+
+state 66
+
+    (24) choice_instr -> IF ( condition ) stmt ELSE stmt .
+
+    ID              reduce using rule 24 (choice_instr -> IF ( condition ) stmt ELSE stmt .)
+    IF              reduce using rule 24 (choice_instr -> IF ( condition ) stmt ELSE stmt .)
+    WHILE           reduce using rule 24 (choice_instr -> IF ( condition ) stmt ELSE stmt .)
+    $end            reduce using rule 24 (choice_instr -> IF ( condition ) stmt ELSE stmt .)
+    ELSE            reduce using rule 24 (choice_instr -> IF ( condition ) stmt ELSE stmt .)
+    }               reduce using rule 24 (choice_instr -> IF ( condition ) stmt ELSE stmt .)
+

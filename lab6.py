@@ -3,7 +3,13 @@
 import sys;
 import ply.lex as lex;
 import ply.yacc as yacc;
-import AST
+from AST import *;
+from pprint import pprint;
+
+
+INT_TYPE = "int"
+FLOAT_TYPE = "float"
+STRING_TYPE = "str"
 
 def addToClass(cls):
 
@@ -13,11 +19,12 @@ def addToClass(cls):
     return decorator
 
 
-class TypeChecker:
 
-    @addToClass(AST.Node)
-    def check(self):
-        raise Exception("check not defined in class " + self.__class__.__name__);
+class TypeChecker:pass
+
+    # @addToClass(InstList)
+    # def check(self):
+        # raise Exception("check not defined in class " + self.__class__.__name__);
 
 
     #@addToClass( ... )
@@ -25,11 +32,11 @@ class TypeChecker:
     # ...
 
 
-class CodeGenerator:
+class CodeGenerator:pass
 
-    @addToClass(AST.Node)
-    def eval(self):
-        raise Exception("eval not defined in class " + self.__class__.__name__);
+    # @addToClass(InstList)
+    # def eval(self):
+        # raise Exception("eval not defined in class " + self.__class__.__name__);
 
 
     #@addToClass( ... )
@@ -41,7 +48,7 @@ literals = "{}()<>=;,+-*/"
 
 
 tokens = ( "ID", "FLOAT", "INTEGER", "STRING",
-           "TYPE", "IF", "ELSE", "WHILE", "EQ", "NEQ", "LE", "GE" );
+        "TYPE", "IF", "ELSE", "WHILE", "EQ", "NEQ", "LE", "GE" );
 
 
 t_ignore = ' \t'
@@ -105,11 +112,11 @@ def t_ID(t):
 
 
 precedence = (
-   ("nonassoc", 'IFX'),
-   ("nonassoc", 'ELSE'),
-   ("nonassoc", '<', '>', 'EQ', 'NEQ', 'LE', 'GE'),
-   ("left", '+', '-'),
-   ("left", '*', '/') )
+("nonassoc", 'IFX'),
+("nonassoc", 'ELSE'),
+("nonassoc", '<', '>', 'EQ', 'NEQ', 'LE', 'GE'),
+("left", '+', '-'),
+("left", '*', '/') )
 
 
 
@@ -118,62 +125,109 @@ def p_error(p):
 
 def p_program(p):
     """program : declarations instructions"""
+    p[0] = (p[1], p[2])
 
 def p_declarations(p):
     """declarations : declarations declaration 
                     | """
+    if len(p) == 1:
+        p[0] = Declarations()
+    else:
+        p[1].sum(p[2])
+        p[0] = p[1]
+     
 
 def p_declaration(p):
     """declaration : TYPE vars ';' """
+    declarations = Declarations()
+    for v in p[2]:
+        declarations.append(v.name , p[1])
+    p[0] = declarations
+    
 
 def p_vars(p):
     """vars : vars ',' ID
             | ID """
+    if len(p) > 3:
+        p[1].append(Variable(p[3]))
+        p[0] = p[1]
+    else:
+        p[0] = [Variable(p[1])]
 
 def p_instructions(p):
     """instructions : instructions instruction
                     | instruction"""
-    
+    if len(p) == 2:
+        inst = InstList()
+        inst.append(p[1])
+        p[0] = inst
+    else:
+        p[1].append(p[2])
+        p[0] = p[1]
 
 def p_instruction(p):
     """instruction : assignment
-                   | choice_instr
-                   | while_instr """
-    
+                | choice_instr
+                | while_instr """
+    p[0] = p[1]
 
 def p_assignment(p):
     """assignment : ID '=' expression ';' """
+    p[0] = AssignOp(Variable(p[1]), p[3])
 
-def p_expression(p):
-    """expression : ID
-                  | const
-                  | expression '+' expression
-                  | expression '-' expression
-                  | expression '*' expression
-                  | expression '/' expression
-                  | '(' expression ')' """
+def p_expression_id(p):
+    """expression : ID """
+    p[0] = Variable(p[1])
+    
+def p_expression_const(p):
+    """expression : const """      
+    p[0] = p[1];
+  
+def p_expression_bra(p):
+    """expression : '(' expression ')' """   
+    p[0] = p[2]
+                
+def p_arithm_expression(p):
+    """expression : expression '+' expression
+                | expression '-' expression
+                | expression '*' expression
+                | expression '/' expression"""
 
+    p[0] = ArithmOp(p[2], p[1], p[3])
 
-def p_const(p):
-    """const : INTEGER
-             | FLOAT
-             | STRING"""
+def p_const_int(p):
+    """const : INTEGER"""
+    p[0] = Constant(p[1], INT_TYPE);
+    
+def p_const_flo(p):
+    """const :  FLOAT"""
+    p[0] = Constant(p[1], FLOAT_TYPE);
+    
+def p_const_str(p):
+    """const : STRING"""
+    p[0] = Constant(p[1], STRING_TYPE);
 
+def p_choice_instr1(p):
+    """choice_instr : IF '(' condition ')' stmt %prec IFX """
+    p[0] = If(p[3], p[6])
 
-def p_choice_instr(p):
-    """choice_instr : IF '(' condition ')' stmt %prec IFX
-                    | IF '(' condition ')' stmt ELSE stmt """
+    
+def p_choice_instr2(p):
+    """choice_instr : IF '(' condition ')' stmt ELSE stmt """
+    p[0] = IfElse(p[3], p[5], p[7])
 
 def p_while_instr(p):
     """while_instr : WHILE '(' condition ')' stmt """
+    p[0] = While(p[3], p[5])
 
 def p_condition(p):
     """condition : expression EQ  expression
-                 | expression NEQ expression
-                 | expression GE  expression
-                 | expression LE  expression
-                 | expression '<' expression
-                 | expression '>' expression """
+                | expression NEQ expression
+                | expression GE  expression
+                | expression LE  expression
+                | expression '<' expression
+                | expression '>' expression """
+    p[0] = CompOp(p[2], p[1], p[3])
 
 def p_stmt(p):
     """stmt : assignment
@@ -181,6 +235,10 @@ def p_stmt(p):
             | choice_instr
             | while_instr """
 
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[2]
 
 
 file = open(sys.argv[1] if len(sys.argv) > 1 else "example.txt", "r");
@@ -189,8 +247,12 @@ file = open(sys.argv[1] if len(sys.argv) > 1 else "example.txt", "r");
 lexer = lex.lex()
 parser = yacc.yacc()
 text = file.read()
-parser.parse(text, lexer=lexer)
+(declarations, instructions) = parser.parse(text, lexer=lexer)
+writer = LineWriter()
+instructions.eval(writer)
+linesWithNumbers = dict(zip(range(0,writer.getLen()), writer.getLines()))
 
+pprint(linesWithNumbers)
 
 
 
